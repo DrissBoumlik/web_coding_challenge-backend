@@ -33,8 +33,6 @@ class ShopUserController extends Controller
             ]);
         }
         $shop_user->save();
-        if($request->is_liked == 0)
-            DeleteDislikedShop::dispatch($shop_user)->delay(now()->addSeconds(10));
         return response()->json([
             'shop' => $shop_user,
             'message' => ($request->is_liked) ? 'Shop Liked' : 'Shop Disliked'
@@ -51,7 +49,7 @@ class ShopUserController extends Controller
     public function destroy($shop_id)
     {
         $shop_user = ShopUser::where('user_id', Auth::user()->id)->where('shop_id',$shop_id)->first();
-        if ($shop_user->delete()) {
+        if ($shop_user != null && $shop_user->delete()) {
             return response()->json([
                 'shop' => $shop_user,
                 'message' => 'Successfully removed from your favorite list!'
@@ -67,7 +65,7 @@ class ShopUserController extends Controller
 
     public function liked_shopes(){
         $user = Auth::user(); // For testing
-        $shops = $user->shops()->where('is_liked', 1)->paginate(12);
+        $shops = $user->shops()->whereNull('shop_users.deleted_at')->where('is_liked', 1)->paginate(12);
         return response()->json(compact('shops'));
     }
 }

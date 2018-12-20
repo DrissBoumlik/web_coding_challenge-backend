@@ -22,8 +22,9 @@ class ShopController extends Controller
             $query->select('shop_id')
                   ->from('shop_users')
                   ->whereNotNull('is_liked')
-                  ->where('user_id', $user_id);
-        })->get();
+                  ->where('user_id', $user_id)
+                  ->whereNull('deleted_at');
+        })->whereNull('deleted_at')->get();
         $shops = Shop::byDistance($location, $shops); // Getting all the shops sorted by distance
         $shops = $this->paginate($shops, 12);
         return response()->json(compact('shops'));
