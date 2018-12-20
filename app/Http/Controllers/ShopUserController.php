@@ -37,7 +37,6 @@ class ShopUserController extends Controller
         $shop_user->save();
         if($request->is_liked == 0){
             $job = (new RemoveDislikedShop($shop_user))->delay(now()->addHours(2));
-
             dispatch($job);
         }
 //            RemoveDislikedShop::dispatch($shop_user)->delay(now()->addSeconds(5));
