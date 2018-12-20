@@ -5,7 +5,7 @@ This is a coding challenge for United Remote.
 
 You can find the FrontEnd Section [Here](https://github.com/drissboumlik/FrontEnd_coding_challenge).
 
-# Prerequise
+# Prerequisites
 
 * You need PHP 7.1+
 * Mysql
