@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class RegisterController extends Controller
 {
@@ -49,9 +52,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'user_location' => 'required',
+            'password' => 'required',
+            'password_confirm' => 'required|same:password',
         ]);
     }
 
@@ -66,7 +71,18 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'user_location' => $data['user_location'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    public function register(Request $request){
+        $validator = self::validator($request->all());
+        if($validator->fails())
+            return response()->json(['error'=>$validator->errors()], 401);
+        $user = self::create($request->all());
+        $success['token'] =  str_random(512);
+        $success['user'] =  $user;
+        return response()->json(['success'=>$success], 200);
     }
 }
