@@ -13,6 +13,31 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::post('login', ['as' => 'login', 'uses' => 'Auth\LoginController@login']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\LoginController@logout']);
+Route::post('register', ['as' => 'register', 'uses' => 'Auth\RegisterController@register']);
+
+Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::get( 'shops/likedshops/', 'ShopUserController@liked_shopes' );
+
+    Route::resource( 'shops', 'ShopController', [
+        'except' => [
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ]
+    ] );
+
+    Route::resource( 'shopusers', 'ShopUserController', [
+        'except' => [
+            'create',
+            'show',
+            'edit'
+        ]
+    ] );
+
 });
