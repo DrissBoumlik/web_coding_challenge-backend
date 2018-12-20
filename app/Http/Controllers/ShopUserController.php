@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ShopUser;
 use Auth;
+use App\Jobs\RemoveDislikedShop;
 
 class ShopUserController extends Controller
 {
@@ -18,11 +19,12 @@ class ShopUserController extends Controller
     {
         $user_id = Auth::user()->id;
 
-        $shop_user = ShopUser::where('user_id',$user_id)->where('shop_id',$request->shop_id)->first();
+        $shop_user = ShopUser::where('user_id',$user_id)
+                             ->where('shop_id',$request->shop_id)
+                             ->whereNull('deleted_at')->first();
 
         if($shop_user != null) {
             $shop_user['is_liked'] = $request->is_liked;
-            //return self::update($request, $shop_user);
         }
         else{
             $shop_user = new ShopUser();
@@ -33,6 +35,12 @@ class ShopUserController extends Controller
             ]);
         }
         $shop_user->save();
+        if($request->is_liked == 0){
+            $job = (new RemoveDislikedShop($shop_user))->delay(now()->addSeconds(5));
+
+            dispatch($job);
+        }
+//            RemoveDislikedShop::dispatch($shop_user)->delay(now()->addSeconds(5));
         return response()->json([
             'shop' => $shop_user,
             'message' => ($request->is_liked) ? 'Shop Liked' : 'Shop Disliked'

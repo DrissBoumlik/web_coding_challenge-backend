@@ -23,20 +23,15 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get( 'shops/likedshops/', 'ShopUserController@liked_shopes' );
 
     Route::resource( 'shops', 'ShopController', [
-        'except' => [
-            'create',
-            'store',
-            'edit',
-            'update',
-            'destroy'
+        'only' => [
+            'index'
         ]
     ] );
 
     Route::resource( 'shopusers', 'ShopUserController', [
-        'except' => [
-            'create',
-            'show',
-            'edit'
+        'only' => [
+        'store',
+        'destroy'
         ]
     ] );
 
