@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\ShopUser;
 
 class RemoveDislikedShopCmd extends Command
 {
@@ -11,7 +12,7 @@ class RemoveDislikedShopCmd extends Command
      *
      * @var string
      */
-    protected $signature = 'shop_user:delete {shop_user}';
+    protected $signature = 'shop_user:delete {id}';
 
     /**
      * The console command description.
@@ -38,7 +39,7 @@ class RemoveDislikedShopCmd extends Command
     public function handle()
     {
         Log::info('About to delete');
-        $shop_user = $this->argument('shop_user')->delete();
+        $shop_user = ShopUser::find($this->argument('id'))->delete();
         return $shop_user;
     }
 }
