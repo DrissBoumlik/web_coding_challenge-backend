@@ -16,9 +16,10 @@ You can find the FrontEnd Section [Here](https://github.com/drissboumlik/FrontEn
 * Clone the project 'git clone https://github.com/DrissBoumlik/BackEnd_coding_challenge.git'
 * Navigate to the project folder  'cd BackEnd_coding_challenge'
 * Install dependencies 'composer install'
-* Clone the environement file 'cp .env.example .env', then change mysql connection information the database name, and APP_URL value too.
+* Clone the environement file 'cp .env.example .env'.
+* Database name : coding_challenge_db
 * Then run the migration 'php artisan migrate'
 * Seed the data 'php artisan db:seed'
 * Generate auth keys 'php artisan passport:install'
 * Finally generate application key 'php artisan key:generate'
-* Now you are Ready To Go you can run 'php artisan serve'.
+* run 'php artisan serve' and head to http://127.0.0.1:8000
