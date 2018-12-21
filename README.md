@@ -7,7 +7,7 @@ You can find the FrontEnd Section [Here](https://github.com/drissboumlik/FrontEn
 
 # Prerequisites
 
-* You need PHP 7.1+
+* PHP 7.1+
 * Mysql
 * Composer
 
