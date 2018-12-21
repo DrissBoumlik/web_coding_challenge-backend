@@ -22,5 +22,5 @@ You can find the FrontEnd Section [Here](https://github.com/drissboumlik/FrontEn
 * Seed the data 'php artisan db:seed'
 * Generate auth keys 'php artisan passport:install'
 * Finally generate application key 'php artisan key:generate'
-* run 'php artisan serve' and head to http://127.0.0.1:8000
-* then run to run jobs 'php artisan queue:listen database'
+* run 'php artisan serve'
+* run to run jobs 'php artisan queue:listen database'
