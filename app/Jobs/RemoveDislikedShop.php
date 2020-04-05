@@ -13,16 +13,16 @@ class RemoveDislikedShop implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $shop_user_id;
+    protected $shop_user;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct($shop_user)
     {
-        $this->shop_user_id = $id;
+        $this->shop_user = $shop_user;
     }
 
     /**
@@ -32,7 +32,7 @@ class RemoveDislikedShop implements ShouldQueue
      */
     public function handle()
     {
-        $shop_user = ShopUser::find($this->shop_user_id)->delete();
-        return $shop_user;
+        $shop_user_deleted = $shop_user->delete();
+        return $shop_user_deleted;
     }
 }

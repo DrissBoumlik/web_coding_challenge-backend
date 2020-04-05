@@ -12,7 +12,7 @@ class RemoveDislikedShopCmd extends Command
      *
      * @var string
      */
-    protected $signature = 'shop_user:delete {id}';
+    protected $signature = 'shop_user:delete {shop_user}';
 
     /**
      * The console command description.
@@ -39,7 +39,7 @@ class RemoveDislikedShopCmd extends Command
     public function handle()
     {
         Log::info('About to delete');
-        $shop_user = ShopUser::find($this->argument('id'))->delete();
-        return $shop_user;
+        $shop_user_deleted = $shop_user->delete();
+        return $shop_user_deleted;
     }
 }
